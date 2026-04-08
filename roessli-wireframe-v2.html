@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roessli Performance — Wireframe (Low-Fi)</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #19466B;
+  --navy: #0A1C2D;
+  --black: #00050A;
+  --white: #F2F2F2;
+  --gray: #7A7A7A;
+  --coregray: #E0E0E0;
+  --light: #f7f7f7;
+  --border: #ccc;
+  --border-light: #ddd;
+  --placeholder-bg: #e4e4e4;
+  --placeholder-border: #bbb;
+  --font-head: 'Archivo', sans-serif;
+  --font-body: 'Onest', sans-serif;
+  --max-w: 1100px;
+  --radius: 4px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-body); background:#fff; color:#333; line-height:1.6; font-size:14px; }
+
+.page { display:none; }
+.page.active { display:block; }
+
+/* ── NAV ── */
+.nav-wrap {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:#fff; border-bottom:1px solid var(--border-light);
+  transition: all .2s ease;
+}
+.nav-wrap.compact { box-shadow: 0 1px 8px rgba(0,0,0,.06); }
+.nav-inner {
+  max-width:var(--max-w); margin:0 auto;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 24px;
+  transition: padding .2s ease;
+}
+.nav-wrap.compact .nav-inner { padding:10px 24px; }
+
+.logo {
+  font-family:var(--font-head); font-weight:700;
+  font-size:18px; letter-spacing:1.5px; color:var(--navy);
+  cursor:pointer; white-space:nowrap;
+  transition: font-size .2s ease;
+}
+.nav-wrap.compact .logo { font-size:15px; }
+.logo span { font-weight:400; color:var(--gray); font-size:.75em; display:block; letter-spacing:2px; }
+.nav-wrap.compact .logo span { display:inline; margin-left:6px; }
+
+.nav-center { display:flex; align-items:center; gap:24px; }
+.nav-center a {
+  font-family:var(--font-body); font-size:13px; font-weight:500;
+  color:#555; text-decoration:none; padding:4px 0;
+  border-bottom:2px solid transparent;
+  transition: all .15s;
+}
+.nav-center a:hover, .nav-center a.active { color:var(--navy); border-bottom-color:var(--blue); }
+
+.nav-right { display:flex; align-items:center; gap:14px; }
+.nav-social {
+  font-size:11px; color:var(--gray); text-decoration:none;
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:4px 10px; transition: all .15s;
+}
+.nav-social:hover { border-color:var(--blue); color:var(--blue); }
+
+/* Dropdown */
+.dropdown { position:relative; }
+.dropdown-menu {
+  position:absolute; top:100%; left:-8px; margin-top:8px;
+  background:#fff; border:1px solid var(--border-light);
+  border-radius:var(--radius); padding:6px 0; min-width:180px;
+  opacity:0; pointer-events:none; transform:translateY(-4px);
+  transition: all .15s; box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+.dropdown:hover .dropdown-menu { opacity:1; pointer-events:auto; transform:translateY(0); }
+.dropdown-menu a {
+  display:block !important; padding:6px 14px !important; font-size:12px !important;
+  color:#666 !important; border-bottom:none !important;
+}
+.dropdown-menu a:hover { background:var(--light); color:var(--navy) !important; }
+
+.btn {
+  font-family:var(--font-body); font-size:12px; font-weight:500;
+  padding:8px 18px; border:1px solid var(--border);
+  border-radius:var(--radius); cursor:pointer;
+  text-decoration:none; display:inline-flex; align-items:center; gap:4px;
+  transition: all .15s; background:#fff; color:#333;
+}
+.btn:hover { border-color:var(--blue); color:var(--blue); }
+.btn-primary { background:var(--navy); color:#fff; border-color:var(--navy); }
+.btn-primary:hover { background:var(--blue); border-color:var(--blue); }
+
+/* ── WIREFRAME ELEMENTS ── */
+.container { max-width:var(--max-w); margin:0 auto; padding:0 24px; }
+.section { padding:80px 0; }
+.section-sm { padding:48px 0; }
+.section-alt { background:var(--light); }
+
+.wf-placeholder {
+  background: var(--placeholder-bg);
+  border: 2px dashed var(--placeholder-border);
+  border-radius: var(--radius);
+  display:flex; align-items:center; justify-content:center;
+  color: #999; font-size:12px; font-family:var(--font-body);
+  text-align:center; padding:12px;
+}
+
+.section-label {
+  font-family:var(--font-head); font-size:11px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase; color:var(--blue);
+  margin-bottom:8px;
+}
+.section-title {
+  font-family:var(--font-head); font-weight:700;
+  font-size:32px; line-height:1.1; color:var(--navy);
+  margin-bottom:12px;
+}
+.section-sub {
+  font-size:14px; color:var(--gray); max-width:500px; line-height:1.7;
+}
+
+/* ── HERO ── */
+.hero {
+  padding-top:90px; position:relative;
+  min-height:85vh; display:flex; align-items:center;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, var(--placeholder-bg) 39px, var(--placeholder-bg) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, var(--placeholder-bg) 39px, var(--placeholder-bg) 40px);
+  opacity:.3;
+}
+.hero-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(10,28,45,.04) 0%, rgba(25,70,107,.06) 100%);
+}
+.hero .container { position:relative; z-index:2; }
+.hero-content { max-width:560px; }
+.hero-badge {
+  display:inline-block;
+  font-family:var(--font-body); font-size:11px; font-weight:500;
+  letter-spacing:1px; color:var(--blue);
+  border:1px solid var(--blue); border-radius:2px;
+  padding:4px 12px; margin-bottom:20px;
+}
+.hero h1 {
+  font-family:var(--font-head); font-weight:700;
+  font-size:clamp(36px,5vw,52px); line-height:1.05;
+  color:var(--navy); margin-bottom:16px;
+}
+.hero p { font-size:15px; color:var(--gray); line-height:1.75; margin-bottom:28px; }
+.hero-ctas { display:flex; gap:10px; flex-wrap:wrap; }
+
+/* ── GRIDS ── */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+.grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; }
+@media(max-width:768px) { .grid-2,.grid-3,.grid-4 { grid-template-columns:1fr; } }
+
+.card {
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  padding:20px; cursor:pointer; transition: border-color .15s;
+  background:#fff;
+}
+.card:hover { border-color:var(--blue); }
+.card-img { width:100%; height:140px; margin-bottom:12px; }
+.card-title { font-family:var(--font-head); font-size:16px; font-weight:600; color:var(--navy); margin-bottom:4px; }
+.card-desc { font-size:13px; color:var(--gray); line-height:1.6; }
+
+/* ── CTA BLOCK ── */
+.cta-block {
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  padding:48px 32px; text-align:center; background:#fff;
+}
+.cta-buttons { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+
+/* ── SPLIT ── */
+.split { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+@media(max-width:768px) { .split { grid-template-columns:1fr; } }
+.split-media { width:100%; aspect-ratio:4/3; }
+
+/* ── PRICING ── */
+.price-card {
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  padding:28px 20px; text-align:center; background:#fff;
+}
+.price-card.featured { border:2px solid var(--blue); position:relative; }
+.price-card.featured::before {
+  content:'Beliebt'; position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+  background:var(--blue); color:#fff;
+  font-family:var(--font-body); font-size:10px; font-weight:600;
+  padding:3px 12px; border-radius:2px; letter-spacing:.5px;
+}
+.price-amount { font-family:var(--font-head); font-size:36px; font-weight:700; color:var(--navy); margin:12px 0 2px; }
+.price-period { font-size:12px; color:var(--gray); margin-bottom:16px; }
+.price-features { list-style:none; text-align:left; margin-bottom:20px; }
+.price-features li {
+  padding:6px 0; font-size:13px; color:#555;
+  border-bottom:1px solid var(--light);
+  display:flex; align-items:center; gap:6px;
+}
+.price-features li::before { content:'—'; color:var(--blue); font-weight:600; }
+
+/* ── NEWSLETTER ── */
+.newsletter-form { display:flex; gap:8px; max-width:400px; margin:0 auto; }
+.newsletter-form input {
+  flex:1; padding:10px 14px; border:1px solid var(--border);
+  border-radius:var(--radius); font-family:var(--font-body); font-size:13px;
+  outline:none;
+}
+.newsletter-form input:focus { border-color:var(--blue); }
+
+/* ── INSTA ── */
+.insta-item {
+  aspect-ratio:1; border-radius:var(--radius);
+  transition: border-color .15s;
+}
+
+/* ── MAP ── */
+.map-placeholder { width:100%; height:260px; }
+
+/* ── TEAM ── */
+.team-avatar {
+  width:100px; height:100px; border-radius:50%;
+  margin:0 auto 12px;
+}
+.team-name { font-family:var(--font-head); font-size:15px; font-weight:600; color:var(--navy); text-align:center; }
+.team-role { font-size:12px; color:var(--gray); text-align:center; }
+
+/* ── FEATURE LIST ── */
+.feature-list { list-style:none; }
+.feature-list li { padding:12px 0; border-bottom:1px solid var(--border-light); display:flex; gap:12px; }
+.feature-icon {
+  width:32px; height:32px; flex-shrink:0;
+  background:var(--light); border:1px solid var(--border-light);
+  border-radius:var(--radius);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--blue); font-size:14px; font-weight:700;
+}
+.feature-text h4 { font-family:var(--font-head); font-size:14px; font-weight:600; color:var(--navy); }
+.feature-text p { font-size:12px; color:var(--gray); }
+
+/* ── CONTACT FORM ── */
+.form-group { margin-bottom:14px; }
+.form-group label { display:block; font-size:12px; font-weight:500; margin-bottom:4px; color:#555; }
+.form-group input,.form-group textarea,.form-group select {
+  width:100%; padding:10px 14px; border:1px solid var(--border);
+  border-radius:var(--radius); font-family:var(--font-body); font-size:13px; outline:none;
+}
+.form-group input:focus,.form-group textarea:focus { border-color:var(--blue); }
+.form-group textarea { min-height:100px; resize:vertical; }
+
+/* ── FOOTER ── */
+footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-top:32px; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:32px; margin-bottom:32px; }
+@media(max-width:768px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+.footer-col h4 { font-family:var(--font-head); font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--navy); margin-bottom:12px; }
+.footer-col a { display:block; font-size:13px; color:var(--gray); text-decoration:none; padding:3px 0; }
+.footer-col a:hover { color:var(--blue); }
+.footer-bottom { border-top:1px solid var(--border-light); padding-top:16px; font-size:11px; color:#aaa; display:flex; justify-content:space-between; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb { font-size:12px; color:#aaa; padding-top:100px; margin-bottom:20px; }
+.breadcrumb a { color:var(--gray); text-decoration:none; }
+.breadcrumb a:hover { color:var(--blue); }
+.breadcrumb span { margin:0 6px; }
+
+/* ── PAGE HERO ── */
+.page-hero { padding:140px 0 60px; background:var(--light); border-bottom:1px solid var(--border-light); }
+
+/* ── WF NOTE ── */
+.wf-note {
+  display:inline-block; font-size:10px; font-weight:500;
+  color:var(--blue); border:1px dashed var(--blue);
+  padding:3px 10px; border-radius:2px; margin-top:8px;
+  opacity:.6;
+}
+
+/* ── STICKY MOBILE CTA ── */
+.sticky-cta {
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  background:#fff; border-top:1px solid var(--border-light);
+  padding:10px 24px; display:none; box-shadow:0 -2px 8px rgba(0,0,0,.05);
+}
+@media(max-width:768px) { .sticky-cta { display:flex; justify-content:center; } }
+
+.text-center { text-align:center; }
+.mb-8 { margin-bottom:8px; }
+.mb-16 { margin-bottom:16px; }
+.mb-32 { margin-bottom:32px; }
+.mb-48 { margin-bottom:48px; }
+
+/* ── HYROX STATIONS ── */
+.station { text-align:center; padding:16px 8px; }
+.station-num { font-family:var(--font-head); font-size:28px; font-weight:700; color:var(--blue); }
+.station-name { font-size:12px; font-weight:500; color:#555; margin-top:2px; }
+
+/* Schedule */
+.schedule-table { width:100%; border-collapse:collapse; font-size:12px; }
+.schedule-table th { text-align:left; padding:10px; background:var(--light); color:var(--gray); font-weight:500; border-bottom:1px solid var(--border-light); }
+.schedule-table td { padding:10px; border-bottom:1px solid var(--border-light); color:var(--gray); }
+.schedule-table td.active { color:var(--blue); font-weight:500; }
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<div class="nav-wrap" id="mainNav">
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      CROSSFIT ROESSLI<span>PERFORMANCE</span>
+    </div>
+    <div class="nav-center">
+      <div class="dropdown">
+        <a href="#" data-nav="crossfit" onclick="showPage('crossfit')">CrossFit ▾</a>
+        <div class="dropdown-menu">
+          <a href="#" onclick="showPage('einfuehrung');event.stopPropagation();">Einführungsklasse</a>
+          <a href="#" onclick="showPage('crossfit');event.stopPropagation();">Erwachsene</a>
+          <a href="#" onclick="showPage('jugendliche');event.stopPropagation();">Kids & Teens</a>
+        </div>
+      </div>
+      <a href="#" data-nav="hyrox" onclick="showPage('hyrox')">Hyrox</a>
+      <a href="#" data-nav="preise" onclick="showPage('preise')">Preise</a>
+      <a href="#" data-nav="ueber" onclick="showPage('ueber')">Über uns</a>
+      <a href="#" data-nav="kontakt" onclick="showPage('kontakt')">Kontakt</a>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="nav-social">IG</a>
+      <a href="#" class="nav-social">WA</a>
+      <a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Probetraining</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ HOME ══════ -->
+<div id="page-home" class="page active">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container" style="display:flex;gap:48px;align-items:center;">
+      <div class="hero-content">
+        <div class="hero-badge">Eröffnung September 2026</div>
+        <h1>FUNCTIONAL FITNESS IN STANS.</h1>
+        <p>CrossFit, Hyrox und Einführungsklassen — geführte 60-Minuten-Klassen in deiner neuen Box. Für Einsteiger bis Fortgeschrittene.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Probetraining buchen →</a>
+          <a href="#" class="btn" onclick="scrollToAngebot()">Angebot entdecken</a>
+        </div>
+      </div>
+      <div style="flex:1;min-width:280px;">
+        <div class="wf-placeholder" style="height:320px;width:100%;">Hero-Bild / Video<br><br><small>Aus Fotoshooting</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Angebot -->
+  <section class="section" id="angebot">
+    <div class="container">
+      <div class="text-center mb-48">
+        <div class="section-label">Unser Angebot</div>
+        <div class="section-title">Was erwartet dich?</div>
+        <div class="section-sub" style="margin:0 auto;">60-minütige geführte Klassen — für Einsteiger bis Fortgeschrittene.</div>
+      </div>
+      <div class="grid-2">
+        <div class="card" onclick="showPage('crossfit')">
+          <div class="wf-placeholder card-img">Bild CrossFit</div>
+          <div class="card-title">CrossFit</div>
+          <div class="card-desc">Kraft, Ausdauer und Beweglichkeit. Für alle Levels skalierbar.</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--blue);font-weight:500;">Mehr erfahren →</div>
+        </div>
+        <div class="card" onclick="showPage('hyrox')">
+          <div class="wf-placeholder card-img">Bild Hyrox</div>
+          <div class="card-title">Hyrox</div>
+          <div class="card-desc">Funktionelles Training für den Hyrox-Wettkampf.</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--blue);font-weight:500;">Mehr erfahren →</div>
+        </div>
+        <div class="card" onclick="showPage('einfuehrung')">
+          <div class="wf-placeholder card-img">Bild Einführung</div>
+          <div class="card-title">Einführungsklasse</div>
+          <div class="card-desc">Perfekt für Einsteiger. Technik und Basics lernen.</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--blue);font-weight:500;">Mehr erfahren →</div>
+        </div>
+        <div class="card" onclick="showPage('jugendliche')">
+          <div class="wf-placeholder card-img">Bild Kids & Teens</div>
+          <div class="card-title">Kids & Teens</div>
+          <div class="card-desc">CrossFit speziell für Jugendliche.</div>
+          <div style="margin-top:10px;font-size:12px;color:var(--blue);font-weight:500;">Mehr erfahren →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mini-Conversion -->
+  <section class="section-sm section-alt">
+    <div class="container">
+      <div class="cta-block" style="background:var(--light);">
+        <div class="section-label">Starte jetzt</div>
+        <div class="section-title">Für was interessierst du dich?</div>
+        <p style="color:var(--gray);max-width:440px;margin:0 auto;font-size:14px;">Wähle dein Interesse und buche direkt. Keine Verpflichtung.</p>
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary" onclick="showPage('probetraining')">CrossFit Probetraining</a>
+          <a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Hyrox Probetraining</a>
+          <a href="#" class="btn" onclick="showPage('einfuehrung')">Einführungsklasse</a>
+          <a href="#" class="btn" onclick="showPage('kontakt')">Besichtigung</a>
+        </div>
+        <div class="wf-note">Wodify Buchungstool Integration</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Warum Roessli -->
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="wf-placeholder split-media">Video / Einblick in die Box</div>
+        <div>
+          <div class="section-label">Über uns</div>
+          <div class="section-title" style="font-size:28px;">Functional Fitness — mit System.</div>
+          <p style="color:var(--gray);margin-bottom:20px;line-height:1.7;font-size:14px;">Roessli Performance ist dein Ort für funktionelles Training in Nidwalden. Hochwertige Ausstattung, erfahrene Coaches und eine Community, die zusammenhält.</p>
+          <ul class="feature-list">
+            <li><div class="feature-icon">●</div><div class="feature-text"><h4>Professionelle Coaches</h4><p>Zertifizierte Trainer mit individueller Betreuung.</p></div></li>
+            <li><div class="feature-icon">●</div><div class="feature-text"><h4>Moderne Ausstattung</h4><p>Brandneue Box mit Top-Equipment.</p></div></li>
+            <li><div class="feature-icon">●</div><div class="feature-text"><h4>Starke Community</h4><p>Trainiere mit Gleichgesinnten.</p></div></li>
+          </ul>
+          <div style="margin-top:20px;"><a href="#" class="btn" onclick="showPage('ueber')">Über uns →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preise -->
+  <section class="section-sm section-alt">
+    <div class="container">
+      <div class="text-center mb-48">
+        <div class="section-label">Preise</div>
+        <div class="section-title">Unsere Abos</div>
+        <div class="section-sub" style="margin:0 auto;">Transparent und flexibel.</div>
+      </div>
+      <div class="grid-3">
+        <div class="price-card">
+          <div style="font-family:var(--font-head);font-size:14px;font-weight:600;">Probetraining / Einzel</div>
+          <div class="price-amount">CHF XX</div>
+          <div class="price-period">Einzelnes Training</div>
+          <ul class="price-features">
+            <li>1 Klasse nach Wahl</li>
+            <li>Persönliche Einführung</li>
+            <li>Unverbindlich</li>
+          </ul>
+          <a href="#" class="btn" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Buchen</a>
+        </div>
+        <div class="price-card featured">
+          <div style="font-family:var(--font-head);font-size:14px;font-weight:600;">2–3× / Woche</div>
+          <div class="price-amount">CHF XX</div>
+          <div class="price-period">pro Monat</div>
+          <ul class="price-features">
+            <li>2–3 Klassen pro Woche</li>
+            <li>Alle Klassen-Typen</li>
+            <li>Group Support</li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Buchen</a>
+        </div>
+        <div class="price-card">
+          <div style="font-family:var(--font-head);font-size:14px;font-weight:600;">Unlimitiert</div>
+          <div class="price-amount">CHF XX</div>
+          <div class="price-period">pro Monat</div>
+          <ul class="price-features">
+            <li>Unbegrenzte Klassen</li>
+            <li>Alle Klassen-Typen</li>
+            <li>Full Access</li>
+          </ul>
+          <a href="#" class="btn" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Buchen</a>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:20px;"><a href="#" class="btn" onclick="showPage('preise')">Alle Preise →</a></div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section">
+    <div class="container text-center">
+      <div class="section-label">Newsletter</div>
+      <div class="section-title">Sei von Anfang an dabei</div>
+      <p style="color:var(--gray);max-width:420px;margin:0 auto 24px;font-size:14px;">Melde dich für exklusive Eröffnungsangebote und Updates an.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Deine E-Mail-Adresse">
+        <button class="btn btn-primary">Anmelden</button>
+      </div>
+      <div class="wf-note" style="margin-top:12px;">Presales / Eröffnungsaktionen</div>
+    </div>
+  </section>
+
+  <!-- Instagram -->
+  <section class="section-sm section-alt">
+    <div class="container">
+      <div class="text-center mb-32">
+        <div class="section-label">Community</div>
+        <div class="section-title">@roessli.performance</div>
+      </div>
+      <div class="grid-4">
+        <div class="wf-placeholder insta-item">Post 1</div>
+        <div class="wf-placeholder insta-item">Post 2</div>
+        <div class="wf-placeholder insta-item">Post 3</div>
+        <div class="wf-placeholder insta-item">Post 4</div>
+      </div>
+      <div class="wf-note" style="margin-top:12px;">Instagram Feed Einbindung</div>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div>
+          <div class="section-label">Standort</div>
+          <div class="section-title" style="font-size:28px;">Finde uns in Stans</div>
+          <div style="color:var(--gray);line-height:1.8;font-size:14px;margin-bottom:20px;">
+            <strong style="color:var(--navy);">Roessli Performance</strong><br>
+            Spichermatt 17<br>6370 Stans<br><br>
+            Mo–Fr: 06:00–21:00<br>Sa: 08:00–14:00<br>So: Geschlossen
+          </div>
+          <a href="#" class="btn" onclick="showPage('kontakt')">Kontakt →</a>
+        </div>
+        <div class="wf-placeholder map-placeholder">Google Maps<br>Stans</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════ CROSSFIT ══════ -->
+<div id="page-crossfit" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span>CrossFit</div>
+      <div class="section-label">CrossFit</div>
+      <div class="section-title">Stärker werden. Jeden Tag.</div>
+      <div class="section-sub">60 Minuten geführte Klassen mit Aufwärmen, Kraft-/Skill-Teil und Workout.</div>
+      <div style="margin-top:20px;"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Probetraining buchen →</a></div>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="wf-placeholder split-media">Bild CrossFit Training</div>
+        <div>
+          <div class="section-label">Was ist CrossFit?</div>
+          <h2 style="font-family:var(--font-head);font-size:24px;font-weight:600;color:var(--navy);margin-bottom:12px;">Funktionelles Training in der Gruppe</h2>
+          <p style="color:var(--gray);line-height:1.7;font-size:14px;">CrossFit kombiniert Gewichtheben, Gymnastik und Cardio. Jede Klasse wird von einem Coach geleitet und individuell angepasst.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section-sm section-alt">
+    <div class="container text-center mb-48">
+      <div class="section-label">Klassenablauf</div>
+      <div class="section-title">So läuft deine Stunde ab</div>
+    </div>
+    <div class="container">
+      <div class="grid-3">
+        <div style="text-align:center;padding:20px;">
+          <div style="font-family:var(--font-head);font-size:36px;font-weight:700;color:var(--blue);">01</div>
+          <div style="font-family:var(--font-head);font-size:15px;font-weight:600;margin-bottom:4px;">Aufwärmen</div>
+          <div style="font-size:12px;color:var(--gray);">Mobilisation und Aktivierung.</div>
+        </div>
+        <div style="text-align:center;padding:20px;">
+          <div style="font-family:var(--font-head);font-size:36px;font-weight:700;color:var(--blue);">02</div>
+          <div style="font-family:var(--font-head);font-size:15px;font-weight:600;margin-bottom:4px;">Kraft / Skill</div>
+          <div style="font-size:12px;color:var(--gray);">Technik und Kraft aufbauen.</div>
+        </div>
+        <div style="text-align:center;padding:20px;">
+          <div style="font-family:var(--font-head);font-size:36px;font-weight:700;color:var(--blue);">03</div>
+          <div style="font-family:var(--font-head);font-size:15px;font-weight:600;margin-bottom:4px;">Workout (WOD)</div>
+          <div style="font-size:12px;color:var(--gray);">Das Haupttraining — intensiv und skalierbar.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container text-center mb-48">
+      <div class="section-label">Klassen</div>
+      <div class="section-title">Finde deine Klasse</div>
+    </div>
+    <div class="container">
+      <div class="grid-3">
+        <div class="card" onclick="showPage('einfuehrung')"><div class="wf-placeholder card-img">Bild</div><div class="card-title">Einführungsklasse</div><div class="card-desc">Für absolute Einsteiger.</div></div>
+        <div class="card"><div class="wf-placeholder card-img">Bild</div><div class="card-title">Erwachsene</div><div class="card-desc">Reguläre CrossFit-Klassen.</div></div>
+        <div class="card" onclick="showPage('jugendliche')"><div class="wf-placeholder card-img">Bild</div><div class="card-title">Kids & Teens</div><div class="card-desc">Altersgerechtes Training.</div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section-sm"><div class="container"><div class="cta-block"><div class="section-title">Bereit fürs erste Training?</div><div class="cta-buttons"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Probetraining buchen →</a></div></div></div></section>
+</div>
+
+<!-- ══════ EINFÜHRUNG ══════ -->
+<div id="page-einfuehrung" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span><a href="#" onclick="showPage('crossfit')">CrossFit</a><span>/</span>Einführungsklasse</div>
+    <div class="section-label">Einführungsklasse</div>
+    <div class="section-title">Dein Start ins CrossFit</div>
+    <div class="section-sub">Lerne die Grundlagen in einem sicheren Umfeld. Keine Vorkenntnisse nötig.</div>
+    <div style="margin-top:20px;"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Einführungsklasse buchen →</a></div>
+  </div></div>
+  <section class="section"><div class="container"><div class="split">
+    <div class="wf-placeholder split-media">Bild Coach mit Anfänger</div>
+    <div>
+      <div class="section-label">Für Einsteiger</div>
+      <h2 style="font-family:var(--font-head);font-size:24px;font-weight:600;color:var(--navy);margin-bottom:12px;">So funktioniert's</h2>
+      <p style="color:var(--gray);line-height:1.7;font-size:14px;margin-bottom:16px;">Die Einführungsklasse vermittelt alle wichtigen Grundtechniken in kleinen Gruppen mit persönlicher Betreuung.</p>
+      <ul class="feature-list">
+        <li><div class="feature-icon">●</div><div class="feature-text"><h4>Kleine Gruppen</h4><p>Maximale Betreuung.</p></div></li>
+        <li><div class="feature-icon">●</div><div class="feature-text"><h4>Technik-Fokus</h4><p>Korrekte Ausführung lernen.</p></div></li>
+        <li><div class="feature-icon">●</div><div class="feature-text"><h4>Sanfter Einstieg</h4><p>Kein Druck — dein Tempo.</p></div></li>
+      </ul>
+    </div>
+  </div></div></section>
+  <section class="section-sm"><div class="container"><div class="cta-block"><div class="section-title">Starte deine Einführungsklasse</div><div class="cta-buttons"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Jetzt buchen →</a><a href="#" class="btn" onclick="showPage('kontakt')">Frage stellen</a></div></div></div></section>
+</div>
+
+<!-- ══════ KIDS ══════ -->
+<div id="page-jugendliche" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span><a href="#" onclick="showPage('crossfit')">CrossFit</a><span>/</span>Kids & Teens</div>
+    <div class="section-label">Kids & Teens</div>
+    <div class="section-title">CrossFit für junge Athleten</div>
+    <div class="section-sub">Altersgerechtes Training mit Fokus auf Spass und Koordination.</div>
+    <div style="margin-top:20px;"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Probetraining →</a></div>
+  </div></div>
+  <section class="section"><div class="container"><div class="split">
+    <div class="wf-placeholder split-media">Bild Jugendliche</div>
+    <div>
+      <h2 style="font-family:var(--font-head);font-size:24px;font-weight:600;color:var(--navy);margin-bottom:12px;">Spielerisch stark werden</h2>
+      <p style="color:var(--gray);line-height:1.7;font-size:14px;">Altersgerecht angepasste Übungen, die Kraft, Koordination und Selbstvertrauen fördern.</p>
+    </div>
+  </div></div></section>
+  <section class="section-sm"><div class="container"><div class="cta-block"><div class="section-title">Anmeldung Kids & Teens</div><div class="cta-buttons"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Probetraining →</a></div></div></div></section>
+</div>
+
+<!-- ══════ HYROX ══════ -->
+<div id="page-hyrox" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span>Hyrox</div>
+    <div class="section-label">Hyrox</div>
+    <div class="section-title">Train for race day.</div>
+    <div class="section-sub">Gezieltes Training für den Hyrox-Wettkampf. 60-Minuten-Klassen.</div>
+    <div style="margin-top:20px;"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Hyrox Probetraining →</a></div>
+  </div></div>
+  <section class="section"><div class="container"><div class="split">
+    <div class="wf-placeholder split-media">Bild Hyrox Training</div>
+    <div>
+      <div class="section-label">Was ist Hyrox?</div>
+      <h2 style="font-family:var(--font-head);font-size:24px;font-weight:600;color:var(--navy);margin-bottom:12px;">Der Fitness-Wettkampf für alle</h2>
+      <p style="color:var(--gray);line-height:1.7;font-size:14px;">8 Laufrunden à 1 km, dazwischen 8 funktionelle Stationen. Unsere Klassen bereiten dich gezielt vor.</p>
+    </div>
+  </div></div></section>
+  <section class="section-sm section-alt"><div class="container text-center mb-32"><div class="section-label">Stationen</div><div class="section-title">Die 8 Hyrox-Stationen</div></div><div class="container"><div class="grid-4">
+    <div class="station"><div class="station-num">01</div><div class="station-name">SkiErg</div></div>
+    <div class="station"><div class="station-num">02</div><div class="station-name">Sled Push</div></div>
+    <div class="station"><div class="station-num">03</div><div class="station-name">Sled Pull</div></div>
+    <div class="station"><div class="station-num">04</div><div class="station-name">Burpee Broad Jump</div></div>
+    <div class="station"><div class="station-num">05</div><div class="station-name">Rowing</div></div>
+    <div class="station"><div class="station-num">06</div><div class="station-name">Farmers Carry</div></div>
+    <div class="station"><div class="station-num">07</div><div class="station-name">Sandbag Lunges</div></div>
+    <div class="station"><div class="station-num">08</div><div class="station-name">Wall Balls</div></div>
+  </div></div></section>
+  <section class="section-sm"><div class="container"><div class="cta-block"><div class="section-title">Ready for Hyrox?</div><div class="cta-buttons"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Hyrox Probetraining →</a></div></div></div></section>
+</div>
+
+<!-- ══════ PREISE ══════ -->
+<div id="page-preise" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span>Preise</div>
+    <div class="section-label">Preise</div>
+    <div class="section-title">Transparent. Fair. Flexibel.</div>
+    <div class="section-sub">Alle Abos beinhalten Zugang zu sämtlichen Klassen.</div>
+  </div></div>
+  <section class="section"><div class="container"><div class="grid-3">
+    <div class="price-card">
+      <div style="font-family:var(--font-head);font-size:14px;font-weight:600;">Probetraining / Einzel</div>
+      <div class="price-amount">CHF XX</div><div class="price-period">Einzelnes Training</div>
+      <ul class="price-features"><li>1 Klasse nach Wahl</li><li>CrossFit oder Hyrox</li><li>Persönliche Einführung</li><li>Unverbindlich</li></ul>
+      <a href="#" class="btn" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Buchen</a>
+    </div>
+    <div class="price-card featured">
+      <div style="font-family:var(--font-head);font-size:14px;font-weight:600;">2–3× pro Woche</div>
+      <div class="price-amount">CHF XX</div><div class="price-period">pro Monat</div>
+      <ul class="price-features"><li>2–3 Klassen pro Woche</li><li>Alle Klassen-Typen</li><li>CrossFit & Hyrox</li><li>Group Support</li></ul>
+      <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Buchen</a>
+    </div>
+    <div class="price-card">
+      <div style="font-family:var(--font-head);font-size:14px;font-weight:600;">Unlimitiert</div>
+      <div class="price-amount">CHF XX</div><div class="price-period">pro Monat</div>
+      <ul class="price-features"><li>Unbegrenzte Klassen</li><li>Alle Klassen-Typen</li><li>Full Access</li><li>Priority-Buchung</li></ul>
+      <a href="#" class="btn" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Buchen</a>
+    </div>
+  </div></div></section>
+  <section class="section-sm"><div class="container"><div class="cta-block"><div class="section-title">Fragen zu den Preisen?</div><div class="cta-buttons"><a href="#" class="btn btn-primary" onclick="showPage('kontakt')">Kontakt →</a></div></div></div></section>
+</div>
+
+<!-- ══════ ÜBER UNS ══════ -->
+<div id="page-ueber" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span>Über uns</div>
+    <div class="section-label">Über uns</div>
+    <div class="section-title">Das ist Roessli Performance</div>
+    <div class="section-sub">Functional Fitness in Stans — mit Leidenschaft und Community.</div>
+  </div></div>
+  <section class="section"><div class="container"><div class="split">
+    <div class="wf-placeholder split-media">Bild Team / Box</div>
+    <div>
+      <div class="section-label">Unsere Story</div>
+      <h2 style="font-family:var(--font-head);font-size:24px;font-weight:600;color:var(--navy);margin-bottom:12px;">Aus Leidenschaft entstanden</h2>
+      <p style="color:var(--gray);line-height:1.7;font-size:14px;">Platzhalter: Geschichte von Roessli Performance. Wird vom Kunden geliefert.</p>
+    </div>
+  </div></div></section>
+  <section class="section-sm section-alt"><div class="container text-center mb-48"><div class="section-label">Team</div><div class="section-title">Deine Coaches</div></div><div class="container"><div class="grid-3">
+    <div><div class="wf-placeholder team-avatar">Foto</div><div class="team-name">Coach 1</div><div class="team-role">Head Coach</div></div>
+    <div><div class="wf-placeholder team-avatar">Foto</div><div class="team-name">Coach 2</div><div class="team-role">CrossFit Coach</div></div>
+    <div><div class="wf-placeholder team-avatar">Foto</div><div class="team-name">Coach 3</div><div class="team-role">Hyrox Coach</div></div>
+  </div></div></section>
+  <section class="section-sm"><div class="container"><div class="cta-block"><div class="section-title">Probetraining?</div><div class="cta-buttons"><a href="#" class="btn btn-primary" onclick="showPage('probetraining')">Buchen →</a></div></div></div></section>
+</div>
+
+<!-- ══════ KONTAKT ══════ -->
+<div id="page-kontakt" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span>Kontakt</div>
+    <div class="section-label">Kontakt</div>
+    <div class="section-title">Wir freuen uns auf dich</div>
+  </div></div>
+  <section class="section"><div class="container"><div class="split">
+    <div>
+      <h3 style="font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--navy);margin-bottom:10px;">Roessli Performance GmbH</h3>
+      <p style="color:var(--gray);line-height:1.8;font-size:14px;">Spichermatt 17<br>6370 Stans<br><br>info@roessli-performance.ch<br>WhatsApp: XXX XXX XX XX</p>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <a href="#" class="btn">Instagram</a><a href="#" class="btn">WhatsApp</a>
+      </div>
+    </div>
+    <div style="border:1px solid var(--border-light);border-radius:var(--radius);padding:20px;">
+      <h3 style="font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--navy);margin-bottom:16px;">Nachricht senden</h3>
+      <div class="form-group"><label>Name</label><input type="text" placeholder="Dein Name"></div>
+      <div class="form-group"><label>E-Mail</label><input type="email" placeholder="deine@email.ch"></div>
+      <div class="form-group"><label>Betreff</label><select><option>Allgemeine Anfrage</option><option>Probetraining</option><option>Preise</option><option>Besichtigung</option></select></div>
+      <div class="form-group"><label>Nachricht</label><textarea placeholder="Deine Nachricht..."></textarea></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;">Senden</button>
+    </div>
+  </div></div></section>
+  <section class="section-sm"><div class="container"><div class="wf-placeholder map-placeholder">Google Maps — Stans</div></div></section>
+</div>
+
+<!-- ══════ PROBETRAINING ══════ -->
+<div id="page-probetraining" class="page">
+  <div class="page-hero"><div class="container">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a><span>/</span>Probetraining</div>
+    <div class="section-label">Probetraining</div>
+    <div class="section-title">Buche dein erstes Training</div>
+    <div class="section-sub">Wähle deine Klasse und sichere dir einen Platz.</div>
+  </div></div>
+  <section class="section"><div class="container">
+    <div class="text-center mb-48"><div class="section-label">Auswahl</div><div class="section-title">Für was interessierst du dich?</div></div>
+    <div class="grid-2" style="max-width:640px;margin:0 auto;">
+      <div class="card" style="text-align:center;"><div class="wf-placeholder card-img">Bild CrossFit</div><div class="card-title">CrossFit Probetraining</div><div class="card-desc">Für alle Levels.</div><div style="margin-top:14px;"><a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Buchen →</a></div></div>
+      <div class="card" style="text-align:center;"><div class="wf-placeholder card-img">Bild Hyrox</div><div class="card-title">Hyrox Probetraining</div><div class="card-desc">Wettkampfvorbereitung.</div><div style="margin-top:14px;"><a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Buchen →</a></div></div>
+    </div>
+    <div class="grid-2" style="max-width:640px;margin:14px auto 0;">
+      <div class="card" style="text-align:center;"><div class="card-title" style="font-size:15px;">Einführungsklasse</div><div class="card-desc">Für absolute Einsteiger.</div><div style="margin-top:10px;"><a href="#" class="btn" style="width:100%;justify-content:center;">Buchen</a></div></div>
+      <div class="card" style="text-align:center;"><div class="card-title" style="font-size:15px;">Besichtigung</div><div class="card-desc">Schau dir die Box an.</div><div style="margin-top:10px;"><a href="#" class="btn" style="width:100%;justify-content:center;" onclick="showPage('kontakt')">Anfragen</a></div></div>
+    </div>
+    <div class="wf-note" style="display:block;text-align:center;margin-top:20px;">Wodify Buchungstool Einbettung — Termine & Verfügbarkeit</div>
+  </div></section>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="font-size:14px;margin-bottom:12px;" onclick="showPage('home')">CROSSFIT ROESSLI<span>PERFORMANCE</span></div>
+        <p style="font-size:12px;color:var(--gray);line-height:1.7;">Functional Fitness in Stans.<br>CrossFit · Hyrox · Einführung · Kids & Teens</p>
+      </div>
+      <div class="footer-col"><h4>Angebot</h4>
+        <a href="#" onclick="showPage('crossfit')">CrossFit</a>
+        <a href="#" onclick="showPage('hyrox')">Hyrox</a>
+        <a href="#" onclick="showPage('einfuehrung')">Einführungsklasse</a>
+        <a href="#" onclick="showPage('jugendliche')">Kids & Teens</a>
+        <a href="#" onclick="showPage('preise')">Preise</a>
+      </div>
+      <div class="footer-col"><h4>Infos</h4>
+        <a href="#" onclick="showPage('ueber')">Über uns</a>
+        <a href="#" onclick="showPage('kontakt')">Kontakt</a>
+        <a href="#" onclick="showPage('probetraining')">Probetraining</a>
+      </div>
+      <div class="footer-col"><h4>Rechtliches</h4>
+        <a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Partner</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Roessli Performance GmbH</span>
+      <span>Spichermatt 17, 6370 Stans</span>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;" onclick="showPage('probetraining')">Probetraining buchen →</a>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  document.querySelectorAll('.nav-center a, .nav-center .dropdown > a').forEach(a => a.classList.remove('active'));
+  const map = {home:null,crossfit:'crossfit',einfuehrung:'crossfit',jugendliche:'crossfit',hyrox:'hyrox',preise:'preise',ueber:'ueber',kontakt:'kontakt',probetraining:null};
+  const t = map[id];
+  if(t){ const el=document.querySelector('[data-nav="'+t+'"]'); if(el) el.classList.add('active'); }
+  return false;
+}
+function scrollToAngebot() { document.getElementById('angebot').scrollIntoView({behavior:'smooth'}); }
+
+// Sticky compact nav on scroll
+let nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  if(window.scrollY > 60) nav.classList.add('compact');
+  else nav.classList.remove('compact');
+});
+
+document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+</script>
+</body>
+</html>
