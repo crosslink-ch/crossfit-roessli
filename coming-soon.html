@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roessli Performance — Coming Soon (Wireframe)</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #19466B;
+  --navy: #0A1C2D;
+  --black: #00050A;
+  --white: #F2F2F2;
+  --gray: #7A7A7A;
+  --coregray: #E0E0E0;
+  --light: #f7f7f7;
+  --border: #ccc;
+  --border-light: #ddd;
+  --placeholder-bg: #e4e4e4;
+  --placeholder-border: #bbb;
+  --font-head: 'Archivo', sans-serif;
+  --font-body: 'Onest', sans-serif;
+  --max-w: 1100px;
+  --radius: 4px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-body); background:#fff; color:#333; line-height:1.6; font-size:14px; }
+
+/* ── NAV ── */
+.nav-wrap {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:#fff; border-bottom:1px solid var(--border-light);
+  transition: all .2s ease;
+}
+.nav-wrap.compact { box-shadow: 0 1px 8px rgba(0,0,0,.06); }
+.nav-inner {
+  max-width:var(--max-w); margin:0 auto;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 24px;
+  transition: padding .2s ease;
+}
+.nav-wrap.compact .nav-inner { padding:10px 24px; }
+
+.logo {
+  font-family:var(--font-head); font-weight:700;
+  font-size:18px; letter-spacing:1.5px; color:var(--navy);
+  white-space:nowrap;
+  transition: font-size .2s ease;
+}
+.nav-wrap.compact .logo { font-size:15px; }
+.logo span { font-weight:400; color:var(--gray); font-size:.75em; display:block; letter-spacing:2px; }
+.nav-wrap.compact .logo span { display:inline; margin-left:6px; }
+
+.nav-right { display:flex; align-items:center; gap:14px; }
+.nav-social {
+  font-size:11px; color:var(--gray); text-decoration:none;
+  border:1px solid var(--border); border-radius:var(--radius);
+  padding:4px 10px; transition: all .15s;
+}
+.nav-social:hover { border-color:var(--blue); color:var(--blue); }
+
+.container { max-width:var(--max-w); margin:0 auto; padding:0 24px; }
+.section { padding:80px 0; }
+.section-alt { background:var(--light); }
+
+.wf-placeholder {
+  background: var(--placeholder-bg);
+  border: 2px dashed var(--placeholder-border);
+  border-radius: var(--radius);
+  display:flex; align-items:center; justify-content:center;
+  color: #999; font-size:12px; font-family:var(--font-body);
+  text-align:center; padding:12px;
+}
+
+.section-label {
+  font-family:var(--font-head); font-size:11px; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase; color:var(--blue);
+  margin-bottom:8px;
+}
+.section-title {
+  font-family:var(--font-head); font-weight:700;
+  font-size:32px; line-height:1.1; color:var(--navy);
+  margin-bottom:12px;
+}
+.section-sub {
+  font-size:14px; color:var(--gray); max-width:500px; line-height:1.7;
+}
+
+.wf-note {
+  display:inline-block; font-size:10px; font-weight:500;
+  color:var(--blue); border:1px dashed var(--blue);
+  padding:3px 10px; border-radius:2px; margin-top:8px;
+  opacity:.6;
+}
+
+.btn {
+  font-family:var(--font-body); font-size:12px; font-weight:500;
+  padding:8px 18px; border:1px solid var(--border);
+  border-radius:var(--radius); cursor:pointer;
+  text-decoration:none; display:inline-flex; align-items:center; gap:4px;
+  transition: all .15s; background:#fff; color:#333;
+}
+.btn:hover { border-color:var(--blue); color:var(--blue); }
+.btn-primary { background:var(--navy); color:#fff; border-color:var(--navy); }
+.btn-primary:hover { background:var(--blue); border-color:var(--blue); }
+
+.text-center { text-align:center; }
+
+/* ── HERO ── */
+.hero {
+  padding-top:90px; position:relative;
+  min-height:85vh; display:flex; align-items:center;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, var(--placeholder-bg) 39px, var(--placeholder-bg) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, var(--placeholder-bg) 39px, var(--placeholder-bg) 40px);
+  opacity:.3;
+}
+.hero-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(10,28,45,.04) 0%, rgba(25,70,107,.06) 100%);
+}
+.hero .container { position:relative; z-index:2; }
+.hero-badge {
+  display:inline-block;
+  font-family:var(--font-body); font-size:11px; font-weight:500;
+  letter-spacing:1px; color:var(--blue);
+  border:1px solid var(--blue); border-radius:2px;
+  padding:4px 12px; margin-bottom:20px;
+}
+
+/* ── COUNTDOWN ── */
+.countdown {
+  display:flex; gap:16px; margin:32px 0 8px;
+}
+.countdown-unit { text-align:center; }
+.countdown-num {
+  font-family:var(--font-head); font-weight:700;
+  font-size:48px; color:var(--navy); line-height:1; display:block;
+}
+.countdown-label {
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gray); margin-top:4px; font-weight:500;
+}
+.countdown-sep {
+  font-family:var(--font-head); font-weight:300;
+  font-size:36px; color:var(--border); line-height:1; padding-top:4px;
+}
+.countdown-note {
+  font-size:12px; color:var(--gray); margin-bottom:28px;
+}
+
+/* ── TIER TIMELINE ── */
+.tiers { max-width:640px; position:relative; }
+.tiers::before {
+  content:''; position:absolute; left:28px; top:0; bottom:0;
+  width:2px; background:var(--border-light);
+}
+.tier {
+  display:flex; align-items:stretch; gap:16px;
+  position:relative; opacity:.4;
+}
+.tier.active { opacity:1; }
+.tier.expired { opacity:.25; }
+.tier-dot {
+  width:58px; flex-shrink:0;
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center;
+  position:relative; z-index:2;
+}
+.tier-dot-circle {
+  width:14px; height:14px; border-radius:50%;
+  border:2px solid var(--border);
+  background:#fff;
+}
+.tier.active .tier-dot-circle {
+  border-color:var(--blue); background:var(--blue);
+}
+.tier.expired .tier-dot-circle {
+  border-color:var(--border-light); background:var(--light);
+}
+.tier-dot-line { flex:1; width:2px; }
+.tier-card {
+  flex:1; border:1px solid var(--border-light);
+  border-radius:var(--radius); padding:16px 20px;
+  margin:4px 0; background:#fff;
+}
+.tier.active .tier-card {
+  border-color:var(--blue); border-width:2px;
+}
+.tier-header {
+  display:flex; justify-content:space-between; align-items:baseline;
+  margin-bottom:2px;
+}
+.tier-discount {
+  font-family:var(--font-head); font-weight:700;
+  font-size:22px; color:var(--navy);
+}
+.tier.expired .tier-discount {
+  text-decoration:line-through; color:var(--border);
+}
+.tier-period {
+  font-size:11px; color:var(--gray); font-weight:500;
+}
+.tier-price {
+  font-size:13px; color:var(--gray); margin-top:2px;
+}
+.tier-price strong { color:var(--navy); font-weight:600; }
+.tier-badge-active {
+  display:none; font-size:10px; font-weight:600;
+  letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--blue); margin-top:6px;
+}
+.tier.active .tier-badge-active { display:block; }
+.tier-badge-expired {
+  display:none; font-size:10px; font-weight:500;
+  letter-spacing:1px; text-transform:uppercase;
+  color:var(--border); margin-top:6px;
+}
+.tier.expired .tier-badge-expired { display:block; }
+
+.tier-urgency {
+  margin-top:24px; padding:16px 20px;
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  background:var(--light); max-width:640px;
+}
+.tier-urgency-text { font-size:13px; color:var(--gray); }
+.tier-urgency-text strong { color:var(--navy); }
+.tier-urgency-timer {
+  font-family:var(--font-head); font-weight:700;
+  font-size:20px; color:var(--navy); margin-top:4px;
+}
+
+/* ── PRE-SALE CARD ── */
+.presale-card {
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  padding:48px 32px; text-align:center; background:#fff;
+  position:relative;
+}
+.presale-card.featured { border:2px solid var(--blue); }
+.presale-card.featured::before {
+  content:'Pre-Sale'; position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+  background:var(--blue); color:#fff;
+  font-family:var(--font-body); font-size:10px; font-weight:600;
+  padding:3px 12px; border-radius:2px; letter-spacing:.5px;
+}
+.presale-price { margin:20px 0 6px; }
+.presale-price .original {
+  font-family:var(--font-head); font-size:16px;
+  color:var(--border); text-decoration:line-through;
+}
+.presale-price .current {
+  font-family:var(--font-head); font-size:42px;
+  font-weight:700; color:var(--navy); margin-left:10px;
+}
+.presale-price .period { font-size:13px; color:var(--gray); }
+.presale-details {
+  display:flex; justify-content:center; gap:32px;
+  margin:20px 0 28px; flex-wrap:wrap;
+}
+.presale-detail { font-size:13px; color:var(--gray); }
+.presale-detail strong {
+  display:block; color:var(--navy); font-weight:600;
+  font-family:var(--font-head); font-size:14px; margin-bottom:2px;
+}
+.presale-note { font-size:12px; color:var(--gray); margin-top:14px; }
+
+/* ── EXPECT GRID ── */
+.expect-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:768px) { .expect-grid { grid-template-columns:1fr; } }
+.expect-item {
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  padding:24px 20px; background:#fff;
+  transition: border-color .15s;
+}
+.expect-item:hover { border-color:var(--blue); }
+.expect-icon {
+  width:36px; height:36px;
+  border:1px solid var(--border-light); border-radius:var(--radius);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:14px; font-size:14px; font-weight:700;
+  color:var(--blue); background:var(--light);
+}
+.expect-item h3 {
+  font-family:var(--font-head); font-weight:600;
+  font-size:14px; color:var(--navy); margin-bottom:4px;
+}
+.expect-item p { font-size:12px; color:var(--gray); line-height:1.65; }
+
+/* ── NEWSLETTER ── */
+.newsletter-form { display:flex; gap:8px; max-width:400px; }
+.newsletter-form input {
+  flex:1; padding:10px 14px; border:1px solid var(--border);
+  border-radius:var(--radius); font-family:var(--font-body); font-size:13px;
+  outline:none;
+}
+.newsletter-form input:focus { border-color:var(--blue); }
+
+/* ── FAQ ── */
+.faq-list { max-width:640px; }
+.faq-item { border-bottom:1px solid var(--border-light); }
+.faq-q {
+  width:100%; padding:16px 0;
+  background:none; border:none;
+  font-family:var(--font-body); font-size:14px; font-weight:500;
+  color:var(--navy); cursor:pointer; text-align:left;
+  display:flex; justify-content:space-between; align-items:center; gap:16px;
+  transition: color .15s;
+}
+.faq-q:hover { color:var(--blue); }
+.faq-q::after {
+  content:'+'; font-family:var(--font-head); font-weight:300;
+  font-size:20px; color:var(--border); flex-shrink:0;
+}
+.faq-item.open .faq-q::after { content:'−'; color:var(--blue); }
+.faq-a { max-height:0; overflow:hidden; transition: max-height .3s ease; }
+.faq-item.open .faq-a { max-height:200px; }
+.faq-a p { padding-bottom:16px; font-size:13px; color:var(--gray); line-height:1.7; }
+
+/* ── FOOTER ── */
+footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-top:32px; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:32px; margin-bottom:32px; }
+@media(max-width:768px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+.footer-col h4 { font-family:var(--font-head); font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--navy); margin-bottom:12px; }
+.footer-col a { display:block; font-size:13px; color:var(--gray); text-decoration:none; padding:3px 0; }
+.footer-col a:hover { color:var(--blue); }
+.footer-bottom { border-top:1px solid var(--border-light); padding-top:16px; font-size:11px; color:#aaa; display:flex; justify-content:space-between; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px) {
+  .hero { min-height:auto; padding-top:100px; padding-bottom:60px; }
+  .hero-inner { flex-direction:column; }
+  .countdown-num { font-size:32px; }
+  .countdown-sep { font-size:24px; }
+  .presale-card { padding:32px 20px; }
+  .presale-price .current { font-size:32px; }
+  .presale-details { gap:16px; }
+  .newsletter-form { flex-direction:column; max-width:100%; }
+  .footer-grid { grid-template-columns:1fr 1fr; }
+  .footer-bottom { flex-direction:column; gap:4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<div class="nav-wrap" id="mainNav">
+  <div class="nav-inner">
+    <div class="logo">CROSSFIT ROESSLI<span>PERFORMANCE</span></div>
+    <div class="nav-right">
+      <a href="#" class="nav-social">IG</a>
+      <a href="#" class="nav-social">FB</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container" style="display:flex;gap:48px;align-items:center;" class="hero-inner">
+    <div style="max-width:520px;">
+      <div class="hero-badge">Eröffnung Sommer 2026</div>
+      <h1 style="font-family:var(--font-head);font-weight:700;font-size:clamp(36px,5vw,52px);line-height:1.05;color:var(--navy);margin-bottom:16px;">
+        Bald geht's los.
+      </h1>
+      <p style="font-size:15px;color:var(--gray);line-height:1.75;margin-bottom:8px;">
+        <strong style="color:var(--navy);">CROSSFIT ROESSLI PERFORMANCE</strong> eröffnet bald in Stans.
+        Sichere dir jetzt deinen Platz — und spare bis zu 50 % auf dein Abo.
+      </p>
+      <div class="countdown" id="countdown">
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-days">--</span>
+          <span class="countdown-label">Tage</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-hours">--</span>
+          <span class="countdown-label">Std</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-mins">--</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-secs">--</span>
+          <span class="countdown-label">Sek</span>
+        </div>
+      </div>
+      <p class="countdown-note">bis zur Eröffnung</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="#presale" class="btn btn-primary">Jetzt Pre-Sale Abo sichern →</a>
+        <a href="#newsletter" class="btn">Newsletter abonnieren</a>
+      </div>
+    </div>
+    <div style="flex:1;min-width:280px;">
+      <div class="wf-placeholder" style="height:380px;width:100%;">Hero-Bild / Video<br><br><small>Gym Impression oder<br>Countdown-Visual</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ EARLY-BIRD RABATT ══════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="section-label">Early-Bird Aktion</div>
+      <div class="section-title">Je früher du buchst, desto mehr sparst du.</div>
+      <div class="section-sub" style="margin:0 auto;">Der Rabatt sinkt mit jeder Phase. Wer jetzt zuschlägt, sichert sich den besten Preis — garantiert für die ersten 12 Monate.</div>
+    </div>
+
+    <div class="tiers" id="tiers" style="margin:0 auto;">
+      <!-- Tier 1 -->
+      <div class="tier" data-tier="1">
+        <div class="tier-dot"><div class="tier-dot-circle"></div><div class="tier-dot-line"></div></div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <span class="tier-discount">50 % Rabatt</span>
+            <span class="tier-period">Erste Woche</span>
+          </div>
+          <div class="tier-price">Unlimited Abo: <strong>CHF 89.–</strong> statt CHF 179.–/Mt.</div>
+          <div class="tier-badge-active">● Jetzt aktiv — <span id="tier-remaining-1"></span></div>
+          <div class="tier-badge-expired">Abgelaufen</div>
+        </div>
+      </div>
+      <!-- Tier 2 -->
+      <div class="tier" data-tier="2">
+        <div class="tier-dot"><div class="tier-dot-circle"></div><div class="tier-dot-line"></div></div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <span class="tier-discount">40 % Rabatt</span>
+            <span class="tier-period">Danach 10 Tage</span>
+          </div>
+          <div class="tier-price">Unlimited Abo: <strong>CHF 107.–</strong> statt CHF 179.–/Mt.</div>
+          <div class="tier-badge-active">● Jetzt aktiv — <span id="tier-remaining-2"></span></div>
+          <div class="tier-badge-expired">Abgelaufen</div>
+        </div>
+      </div>
+      <!-- Tier 3 -->
+      <div class="tier" data-tier="3">
+        <div class="tier-dot"><div class="tier-dot-circle"></div><div class="tier-dot-line"></div></div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <span class="tier-discount">30 % Rabatt</span>
+            <span class="tier-period">Danach 10 Tage</span>
+          </div>
+          <div class="tier-price">Unlimited Abo: <strong>CHF 125.–</strong> statt CHF 179.–/Mt.</div>
+          <div class="tier-badge-active">● Jetzt aktiv — <span id="tier-remaining-3"></span></div>
+          <div class="tier-badge-expired">Abgelaufen</div>
+        </div>
+      </div>
+      <!-- Tier 4 -->
+      <div class="tier" data-tier="4">
+        <div class="tier-dot"><div class="tier-dot-circle"></div><div class="tier-dot-line"></div></div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <span class="tier-discount">20 % Rabatt</span>
+            <span class="tier-period">Danach 10 Tage</span>
+          </div>
+          <div class="tier-price">Unlimited Abo: <strong>CHF 143.–</strong> statt CHF 179.–/Mt.</div>
+          <div class="tier-badge-active">● Jetzt aktiv — <span id="tier-remaining-4"></span></div>
+          <div class="tier-badge-expired">Abgelaufen</div>
+        </div>
+      </div>
+      <!-- Tier 5 -->
+      <div class="tier" data-tier="5">
+        <div class="tier-dot"><div class="tier-dot-circle"></div><div class="tier-dot-line"></div></div>
+        <div class="tier-card">
+          <div class="tier-header">
+            <span class="tier-discount">10 % Rabatt</span>
+            <span class="tier-period">Bis zur Eröffnung</span>
+          </div>
+          <div class="tier-price">Unlimited Abo: <strong>CHF 161.–</strong> statt CHF 179.–/Mt.</div>
+          <div class="tier-badge-active">● Jetzt aktiv — <span id="tier-remaining-5"></span></div>
+          <div class="tier-badge-expired">Abgelaufen</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tier-urgency" id="tier-urgency" style="margin:24px auto 0;">
+      <div class="tier-urgency-text">Aktueller Rabatt endet in</div>
+      <div class="tier-urgency-timer" id="tier-timer">--:--:--</div>
+    </div>
+
+    <div class="wf-note" style="display:block;text-align:center;margin-top:20px;">Rabatt-Phasen und Preise konfigurierbar — Daten im JavaScript anpassbar</div>
+  </div>
+</section>
+
+<!-- ══════ PRE-SALE ABO ══════ -->
+<section class="section" id="presale">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="section-label">Pre-Sale</div>
+      <div class="section-title">Sichere dir den Early-Bird Preis.</div>
+    </div>
+
+    <div style="max-width:480px;margin:0 auto;">
+      <div class="presale-card featured">
+        <div class="section-label" style="margin-bottom:4px;">Unlimited Abo</div>
+        <div style="display:inline-block;font-family:var(--font-head);font-size:11px;font-weight:600;letter-spacing:1px;color:#fff;background:var(--blue);padding:4px 12px;border-radius:2px;margin:8px 0 4px;">30 % EARLY-BIRD RABATT</div>
+        <p style="font-size:13px;color:var(--gray);">Alle Klassen · Unbegrenzt · 12 Monate Preisgarantie</p>
+        <div class="presale-price">
+          <span class="original">CHF 179.–</span>
+          <span class="current" id="presale-price">CHF 125.–</span>
+          <span class="period">/ Monat</span>
+        </div>
+        <div class="presale-details">
+          <div class="presale-detail"><strong>12 Monate</strong>Preis garantiert</div>
+          <div class="presale-detail"><strong>Unlimited</strong>Alle Klassen</div>
+          <div class="presale-detail"><strong>Keine Bindung</strong>Nach 12 Mt. kündbar</div>
+        </div>
+        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px 24px;" id="presale-btn">Jetzt Pre-Sale Abo sichern →</a>
+        <p class="presale-note">Zahlung erst ab Eröffnung. Jederzeit kündbar nach der Mindestlaufzeit.</p>
+      </div>
+    </div>
+
+    <div class="wf-note" style="display:block;text-align:center;margin-top:20px;">Buchungstool-Einbettung oder Stripe Checkout</div>
+  </div>
+</section>
+
+<!-- ══════ WAS DICH ERWARTET ══════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:48px;">
+      <div class="section-label">Was dich erwartet</div>
+      <div class="section-title">Functional Fitness auf höchstem Niveau.</div>
+      <div class="section-sub" style="margin:0 auto;">Ein Vorgeschmack auf das, was kommt.</div>
+    </div>
+    <div class="expect-grid">
+      <div class="expect-item">
+        <div class="expect-icon">CF</div>
+        <h3>CrossFit Classes</h3>
+        <p>Täglich wechselnde Workouts in der Gruppe — skalierbar für jedes Level.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">HX</div>
+        <h3>Hyrox Training</h3>
+        <p>Gezieltes Training für den Hyrox-Wettkampf. Laufen und Functional Movements.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">EQ</div>
+        <h3>Premium Equipment</h3>
+        <p>Rogue-ausgestattete Box — Rig, Assault Bikes, SkiErgs, Rudergeräte und mehr.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">OG</div>
+        <h3>Open Gym</h3>
+        <p>Trainiere wann du willst — ausserhalb der Kurszeiten steht dir die Box offen.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">L2</div>
+        <h3>Zertifizierte Coaches</h3>
+        <p>Erfahrene CrossFit Level 2 Trainer — Technik, Progression, individuelle Betreuung.</p>
+      </div>
+      <div class="expect-item">
+        <div class="expect-icon">CO</div>
+        <h3>Community</h3>
+        <p>Mehr als ein Gym — eine Gemeinschaft, die zusammen trainiert und sich pusht.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ÜBER UNS ══════ -->
+<section class="section">
+  <div class="container">
+    <div style="display:flex;gap:48px;align-items:center;">
+      <div style="flex:1;min-width:240px;">
+        <div class="wf-placeholder" style="height:320px;">Foto Inhaber<br><br><small>Portrait aus Fotoshooting</small></div>
+      </div>
+      <div style="flex:1;">
+        <div class="section-label">Über uns</div>
+        <div class="section-title" style="font-size:24px;">Die erste CrossFit & Hyrox Box in Stans.</div>
+        <p style="font-size:14px;color:var(--gray);line-height:1.7;margin-top:12px;">
+          Mit CROSSFIT ROESSLI PERFORMANCE bringen wir professionelles Functional Fitness nach Stans — als einzige CrossFit-affiliierte und Hyrox-zertifizierte Trainingsanlage in der Region.
+        </p>
+        <p style="font-size:14px;color:var(--gray);line-height:1.7;margin-top:12px;">
+          Unser Ziel: ein Ort, an dem jeder — egal ob Einsteiger oder erfahrener Athlet — sein volles Potenzial entfalten kann. Mit erstklassigem Equipment, zertifizierten Coaches und einer Community, die dich trägt.
+        </p>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border-light);">
+          <div style="font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--navy);">[Name Inhaber]</div>
+          <div style="font-size:12px;color:var(--gray);">Gründer & Head Coach · CrossFit Level 2 Trainer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ NEWSLETTER ══════ -->
+<section class="section" id="newsletter">
+  <div class="container">
+    <div style="display:flex;gap:48px;align-items:center;">
+      <div style="flex:1;">
+        <div class="section-label">Newsletter</div>
+        <div class="section-title" style="font-size:24px;">Bleib auf dem Laufenden.</div>
+        <p style="font-size:14px;color:var(--gray);line-height:1.7;margin-top:8px;margin-bottom:20px;">
+          Eröffnungsdatum, Events, exklusive Angebote — direkt in deine Inbox. Kein Spam, versprochen.
+        </p>
+        <form class="newsletter-form" id="newsletter-form" onsubmit="return handleNewsletter(event)">
+          <input type="email" placeholder="deine@email.ch" required id="newsletter-email">
+          <button type="submit" class="btn btn-primary">Anmelden</button>
+        </form>
+        <p style="font-size:11px;color:#aaa;margin-top:8px;">Wir respektieren deine Privatsphäre. Jederzeit abmeldbar.</p>
+      </div>
+      <div style="flex:1;min-width:240px;">
+        <div class="wf-placeholder" style="height:200px;">Newsletter-Visual<br><br><small>Illustration oder<br>Social Proof Counter</small></div>
+      </div>
+    </div>
+    <div class="wf-note" style="display:block;margin-top:20px;">Mailchimp / Brevo Einbettung</div>
+  </div>
+</section>
+
+<!-- ══════ FAQ ══════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div style="display:flex;gap:48px;align-items:flex-start;">
+      <div style="flex-shrink:0;max-width:280px;">
+        <div class="section-label">Häufige Fragen</div>
+        <div class="section-title" style="font-size:24px;">Alles was du wissen musst.</div>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;margin-top:8px;">Noch Fragen? Schreib uns an <a href="mailto:kontakt@crossfit-roessli.ch" style="color:var(--blue);text-decoration:none;font-weight:500;">kontakt@crossfit-roessli.ch</a></p>
+      </div>
+      <div class="faq-list" style="flex:1;">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Muss ich jetzt schon zahlen?</button>
+          <div class="faq-a"><p>Nein. Du sicherst dir nur den Preis. Die erste Zahlung wird erst ab dem Eröffnungstag fällig. Wenn sich die Eröffnung verzögert, verschiebt sich auch deine Zahlung.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn die Eröffnung verschoben wird?</button>
+          <div class="faq-a"><p>Dein reservierter Preis bleibt bestehen, egal wann wir eröffnen. Du gehst kein Risiko ein — du zahlst erst, wenn du trainieren kannst.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Kann ich meine Pre-Sale Buchung stornieren?</button>
+          <div class="faq-a"><p>Ja, jederzeit vor der Eröffnung. Volle Flexibilität, kein Risiko. Nach Eröffnung gilt die reguläre Mindestlaufzeit von 12 Monaten.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Gilt der Rabatt dauerhaft?</button>
+          <div class="faq-a"><p>Der Early-Bird Preis gilt für die ersten 12 Monate ab Eröffnung. Danach greift der reguläre Monatspreis — ausser du verlängerst zu einem dann aktuellen Angebot.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Brauche ich CrossFit-Erfahrung?</button>
+          <div class="faq-a"><p>Nein! Unsere Klassen sind für alle Levels — von Anfänger bis erfahrener Athlet. Jede Übung wird skaliert und unsere Coaches begleiten dich vom ersten Tag an.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Was beinhaltet das Unlimited Abo?</button>
+          <div class="faq-a"><p>Zugang zu allen CrossFit Classes, Hyrox Training, Open Gym, Einführungsklasse — alles inklusive. Unbegrenzt pro Woche, keine Zusatzkosten.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="font-size:14px;margin-bottom:12px;">CROSSFIT ROESSLI<span>PERFORMANCE</span></div>
+        <p style="font-size:12px;color:var(--gray);line-height:1.7;">Functional Fitness in Stans.<br>CrossFit · Hyrox · Einführung · Kids & Teens</p>
+      </div>
+      <div class="footer-col"><h4>Links</h4>
+        <a href="#presale">Pre-Sale Abo</a>
+        <a href="#newsletter">Newsletter</a>
+      </div>
+      <div class="footer-col"><h4>Social</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+      </div>
+      <div class="footer-col"><h4>Rechtliches</h4>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Roessli Performance GmbH</span>
+      <span>Spichermatt 17, 6370 Stans</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── CONFIGURATION ──
+// For wireframe demo: pre-sale started 20 days ago so tier 3 (30%) is active.
+// In production, set these to real dates.
+const PRESALE_START = new Date(Date.now() - 20 * 86400000);
+const OPENING_DAY   = new Date(Date.now() + 40 * 86400000);
+const BASE_PRICE = 179;
+
+const TIERS = [
+  { discount: 50, days: 7 },
+  { discount: 40, days: 10 },
+  { discount: 30, days: 10 },
+  { discount: 20, days: 10 },
+  { discount: 10, days: null },
+];
+
+function computeTierDates() {
+  let cursor = new Date(PRESALE_START);
+  return TIERS.map((t, i) => {
+    const start = new Date(cursor);
+    let end;
+    if (t.days === null) {
+      end = new Date(OPENING_DAY);
+    } else {
+      end = new Date(cursor);
+      end.setDate(end.getDate() + t.days);
+    }
+    cursor = new Date(end);
+    return { ...t, start, end, index: i };
+  });
+}
+
+const tierDates = computeTierDates();
+
+function getActiveTier(now) {
+  for (const t of tierDates) {
+    if (now >= t.start && now < t.end) return t;
+  }
+  return null;
+}
+
+function updateCountdown() {
+  const now = new Date();
+  let diff = Math.max(0, OPENING_DAY - now);
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+  document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+}
+
+function updateTiers() {
+  const now = new Date();
+  const active = getActiveTier(now);
+  document.querySelectorAll('.tier').forEach((el, i) => {
+    const tier = tierDates[i];
+    el.classList.remove('active', 'expired');
+    if (active && i === active.index) {
+      el.classList.add('active');
+      const rem = tier.end - now;
+      const rd = Math.floor(rem / 86400000);
+      const rh = Math.floor((rem % 86400000) / 3600000);
+      const rm = Math.floor((rem % 3600000) / 60000);
+      const rs = Math.floor((rem % 60000) / 1000);
+      const remEl = document.getElementById('tier-remaining-' + (i + 1));
+      if (remEl) {
+        remEl.textContent = rd > 0
+          ? `noch ${rd}T ${rh}Std`
+          : `noch ${rh}:${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`;
+      }
+      const timerEl = document.getElementById('tier-timer');
+      timerEl.textContent = rd > 0
+        ? `${rd} Tage ${rh}:${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`
+        : `${rh}:${String(rm).padStart(2,'0')}:${String(rs).padStart(2,'0')}`;
+      const price = Math.round(BASE_PRICE * (1 - tier.discount / 100));
+      document.getElementById('presale-price').textContent = `CHF ${price}.–`;
+    } else if (now >= tier.end) {
+      el.classList.add('expired');
+    }
+  });
+}
+
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+function handleNewsletter(e) {
+  e.preventDefault();
+  const btn = document.querySelector('.newsletter-form button');
+  btn.textContent = '✓ Angemeldet';
+  btn.style.background = '#2a9d5c';
+  btn.style.borderColor = '#2a9d5c';
+  document.getElementById('newsletter-email').disabled = true;
+  btn.disabled = true;
+  return false;
+}
+
+// Compact nav on scroll
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('compact', window.scrollY > 60);
+});
+
+updateCountdown();
+updateTiers();
+setInterval(() => { updateCountdown(); updateTiers(); }, 1000);
+
+document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+</script>
+</body>
+</html>
