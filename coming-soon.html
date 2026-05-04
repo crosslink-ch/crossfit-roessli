@@ -468,7 +468,7 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
 .mb-48 { margin-bottom:48px; }
 
 /* ── SCHEDULE ── */
-.schedule-table { width:100%; border-collapse:collapse; font-size:13px; }
+.schedule-table { width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed; }
 .schedule-table th {
   text-align:center; padding:10px 8px;
   font-family:var(--font-head); font-size:12px; font-weight:600;
@@ -485,15 +485,23 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
   white-space:nowrap; font-size:12px;
 }
 .schedule-table .s-cf {
-  background:#fce8da; color:var(--navy); font-weight:600;
+  background:var(--blue); color:#fff; font-weight:600;
   border-radius:3px;
 }
 .schedule-table .s-hx {
-  background:#d4eaf5; color:var(--navy); font-weight:600;
+  background:var(--navy); color:#fff; font-weight:600;
+  border-radius:3px;
+}
+.schedule-table .s-ff {
+  background:var(--gray); color:#fff; font-weight:600;
+  border-radius:3px;
+}
+.schedule-table .s-ct {
+  background:#00050A; color:#fff; font-weight:600;
   border-radius:3px;
 }
 .schedule-legend {
-  display:flex; gap:16px; justify-content:center; margin-top:16px;
+  display:flex; flex-wrap:wrap; gap:8px 16px; justify-content:center; margin-top:16px;
   font-size:12px; color:var(--gray);
 }
 .schedule-legend span {
@@ -502,8 +510,13 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
 .legend-dot {
   width:12px; height:12px; border-radius:2px; display:inline-block;
 }
-.legend-dot.cf { background:#fce8da; }
-.legend-dot.hx { background:#d4eaf5; }
+.legend-dot.cf { background:var(--blue); }
+.legend-dot.hx { background:var(--navy); }
+.legend-dot.ff { background:var(--gray); }
+.legend-dot.ct { background:#00050A; }
+.schedule-note {
+  text-align:center; margin-top:10px; font-size:11px; color:var(--gray);
+}
 @media(max-width:768px) {
   .schedule-table { font-size:11px; }
   .schedule-table th, .schedule-table td { padding:6px 4px; }
@@ -655,7 +668,7 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
   <div class="hero-overlay"></div>
   <div class="container" style="text-align:center;">
     <div>
-      <div class="hero-badge">Eröffnung Januar 2027</div>
+      <div class="hero-badge">Eröffnung 01.09.2026</div>
       <h1 style="font-family:var(--font-head);font-weight:700;font-size:clamp(36px,5vw,52px);line-height:1.05;color:var(--navy);margin-bottom:16px;">
         CrossFit & HYROX Training in Stans
       </h1>
@@ -751,6 +764,16 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
     </div>
     <div style="overflow-x:auto;">
       <table class="schedule-table">
+        <colgroup>
+          <col style="width:14%;">
+          <col style="width:13%;">
+          <col style="width:13%;">
+          <col style="width:13%;">
+          <col style="width:13%;">
+          <col style="width:13%;">
+          <col style="width:13%;">
+          <col style="width:8%;">
+        </colgroup>
         <thead>
           <tr>
             <th></th>
@@ -766,7 +789,10 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
         <tbody>
           <tr>
             <td>09:00–10:00</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td></td>
+            <td class="s-ff">Forever Fit</td>
+            <td></td><td></td>
+            <td class="s-ff">Forever Fit</td>
             <td class="s-hx">HYROX</td>
             <td></td>
           </tr>
@@ -779,9 +805,15 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
           <tr>
             <td>12:15–13:15</td>
             <td class="s-cf">CrossFit</td>
-            <td></td><td></td>
-            <td class="s-hx">HYROX</td>
             <td></td><td></td><td></td>
+            <td class="s-hx">HYROX</td>
+            <td></td><td></td>
+          </tr>
+          <tr>
+            <td>14:00–15:00</td>
+            <td></td><td></td>
+            <td class="s-ct">CrossFit Teens</td>
+            <td></td><td></td><td></td><td></td>
           </tr>
           <tr>
             <td>16:00–17:00</td>
@@ -804,14 +836,15 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
             <td class="s-cf">CrossFit</td>
             <td class="s-cf">CrossFit</td>
             <td class="s-cf">CrossFit</td>
-            <td class="s-hx">HYROX</td>
-            <td></td><td></td>
+            <td></td><td></td><td></td>
           </tr>
           <tr>
-            <td>19:00–20:00</td>
+            <td>19:30–20:30</td>
             <td></td>
             <td class="s-hx">HYROX</td>
-            <td></td><td></td><td></td><td></td><td></td>
+            <td></td>
+            <td class="s-hx">HYROX</td>
+            <td></td><td></td><td></td>
           </tr>
         </tbody>
       </table>
@@ -819,7 +852,10 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
     <div class="schedule-legend">
       <span><span class="legend-dot cf"></span> CrossFit</span>
       <span><span class="legend-dot hx"></span> HYROX</span>
+      <span><span class="legend-dot ff"></span> Forever Fit</span>
+      <span><span class="legend-dot ct"></span> CrossFit Teens</span>
     </div>
+    <div class="schedule-note">CF Teens: 10–16 Jahre · CrossFit / HYROX: ab 16 Jahre</div>
   </div>
 </section>
 
@@ -1153,7 +1189,7 @@ footer { border-top:1px solid var(--border-light); padding:48px 0 20px; margin-t
 
 <script>
 // ── CONFIGURATION ──
-const OPENING_DAY = new Date('2027-01-04');
+const OPENING_DAY = new Date('2026-09-01');
 
 // Discount phases by date range
 const DISCOUNT_PHASES = [
